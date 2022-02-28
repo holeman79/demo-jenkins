@@ -7,8 +7,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/products")
 public class ProductApi {
-    @GetMapping
-    public void getProducts() {
-
-    }
 }
