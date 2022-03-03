@@ -67,7 +67,7 @@ pipeline {
             echo 'Push Docker'
             script {
                 docker.withRegistry( '', registryCredential) {
-                    dockerImage.push("1.0")  // ex) "1.0"
+                    dockerImage.push()  // ex) "1.0"
                 }
             }
           }
