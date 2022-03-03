@@ -87,12 +87,12 @@ pipeline {
               sshagent(credentials: ['api-server-ssh-access']) {
                   sh 'ssh -o StrictHostKeyChecking=no root@10.0.202.6 "whoami"'
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker pull holeman79/demo-jenkins:1.0'"
-                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker run holeman79/demo-jenkins:1.0'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker run -p 8080:8080 -d -name demo holeman79/demo-jenkins:1.0'"
               }
           }
           post {
             success {
-              echo 'Successfully Cloned Repository'
+              echo 'Successfully finished running on api-server'
             }
             failure {
               error 'This pipeline stops here...'
