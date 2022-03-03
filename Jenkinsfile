@@ -77,5 +77,19 @@ pipeline {
             }
           }
         }
+
+        // Server Docker pull
+        stage('SSH api server') {
+          agent any
+          steps {
+              echo 'SSH'
+
+              sshagent(['api-server-ssh-access']) {
+                  sh 'ssh -o StrictHostKeyChecking=no root@175.106.99.40 "whoami"'
+                  sh "ssh -o StrictHostKeyChecking=no root@175.106.99.40 'docker pull holeman79/demo-jenkins:1.0'"
+                  sh "ssh -o StrictHostKeyChecking=no root@175.106.99.40 'docker run holeman79/demo-jenkins:1.0'"
+              }
+          }
+        }
     }
 }
