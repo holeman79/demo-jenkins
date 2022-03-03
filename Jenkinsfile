@@ -45,10 +45,10 @@ pipeline {
         }
 
         // docker build
-        stage('Bulid Docker') {
+        stage('Build Docker') {
           agent any
           steps {
-            echo 'Bulid Docker'
+            echo 'Build Docker'
             script {
                 dockerImage = docker.build imagename
             }
@@ -70,6 +70,19 @@ pipeline {
                     dockerImage.push("1.0")  // ex) "1.0"
                 }
             }
+          }
+          post {
+            failure {
+              error 'This pipeline stops here...'
+            }
+          }
+        }
+        // docker push
+        stage('Delete Docker Image') {
+          agent any
+          steps {
+            echo 'Delete Docker Image'
+            sh "'docker images --filter=reference=holeman79/* -q | xargs -r docker rmi'"
           }
           post {
             failure {
