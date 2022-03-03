@@ -101,8 +101,8 @@ pipeline {
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker ps -f name=demo -q | xargs --no-run-if-empty docker stop'"
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker ps -a -f name=demo -q | xargs -r docker rm'"
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker images --filter=reference=holeman79/* -q | xargs -r docker rmi'"
-                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker pull holeman79/demo-jenkins:1.0'"
-                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker run -p 7070:8080 -d --name demo holeman79/demo-jenkins:1.0'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker pull holeman79/demo-jenkins:latest'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker run -p 7070:8080 -d --name demo holeman79/demo-jenkins:latest'"
               }
           }
           post {
