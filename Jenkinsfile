@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('*/3 * * * *')
-    }
-
     environment {
         imagename = "holeman79/demo-jenkins"
         registryCredential = 'docker-hub'
