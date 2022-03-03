@@ -82,7 +82,7 @@ pipeline {
           agent any
           steps {
             echo 'Delete Docker Image'
-            sh "'docker images --filter=reference=holeman79/* -q | xargs -r docker rmi'"
+            sh "docker images --filter=reference=holeman79/* -q | xargs -r docker rmi"
           }
           post {
             failure {
