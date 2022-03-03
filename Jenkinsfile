@@ -86,7 +86,6 @@ pipeline {
 
               sshagent(credentials: ['api-server-ssh-access']) {
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker ps -q --filter name=demo | grep -q . && docker rm -f \$(docker ps -aq --filter name=demo)'"
-                  //sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker rmi holeman79/demo-jenkins:1.0'"
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker pull holeman79/demo-jenkins:1.0'"
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker run -p 8080:8080 -d --name demo holeman79/demo-jenkins:1.0'"
               }
