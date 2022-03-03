@@ -84,7 +84,7 @@ pipeline {
           steps {
               echo 'SSH'
 
-              sshUserPrivateKey(['api-server-ssh-access']) {
+              sshagent(['api-server-ssh-access']) {
                   sh 'ssh -o StrictHostKeyChecking=no root@175.106.99.40 "whoami"'
                   sh "ssh -o StrictHostKeyChecking=no root@175.106.99.40 'docker pull holeman79/demo-jenkins:1.0'"
                   sh "ssh -o StrictHostKeyChecking=no root@175.106.99.40 'docker run holeman79/demo-jenkins:1.0'"
