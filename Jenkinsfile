@@ -90,6 +90,14 @@ pipeline {
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker run holeman79/demo-jenkins:1.0'"
               }
           }
+          post {
+            success {
+              echo 'Successfully Cloned Repository'
+            }
+            failure {
+              error 'This pipeline stops here...'
+            }
+          }
         }
     }
 }
