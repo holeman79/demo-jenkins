@@ -64,7 +64,7 @@ pipeline {
         stage('Push Docker') {
           agent any
           steps {
-            echo 'Push Docker'
+            echo 'Push Docker!!'
             script {
                 docker.withRegistry( '', registryCredential) {
                     dockerImage.push("1.0")  // ex) "1.0"
