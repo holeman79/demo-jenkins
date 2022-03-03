@@ -11,7 +11,7 @@ pipeline {
         // git에서 repository clone
         stage('Prepare') {
           steps {
-            echo 'Clonning Repository'
+            echo 'Cloning Repository'
             git url: 'https://github.com/holeman79/demo-jenkins.git',
               branch: 'master',
               credentialsId: 'github-access'
@@ -27,10 +27,10 @@ pipeline {
         }
 
         // gradle build
-        stage('Bulid Gradle') {
+        stage('Build Gradle') {
           agent any
           steps {
-            echo 'Bulid Gradle'
+            echo 'Build Gradle'
             dir ('.'){
                 sh """
                 ./gradlew clean build --exclude-task test
