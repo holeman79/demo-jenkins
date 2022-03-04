@@ -98,7 +98,7 @@ pipeline {
               echo 'SSH'
 
               sshagent(credentials: ['api-server-ssh-access']) {
-                def sshUrl = 'ssh -o StrictHostKeyChecking=no root@10.0.202.6';
+                def sshUrl = 'ssh -o StrictHostKeyChecking=no root@10.0.202.6'
                   sh "${sshUrl} 'docker ps -f name=demo -q | xargs --no-run-if-empty docker stop'"
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker ps -a -f name=demo -q | xargs -r docker rm'"
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.6 'docker images --filter=reference=holeman79/* -q | xargs -r docker rmi'"
