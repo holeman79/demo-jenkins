@@ -14,10 +14,10 @@ pipeline {
 
           steps {
             echo 'Exercise Step'
-            echo 'PROJECT_NAME'
+            echo 'env.PROJECT_NAME'
 
             script {
-                if (PROJECT_NAME == 'api-server') {
+                if (env.PROJECT_NAME == 'api-server') {
                    echo 'project name '
                 }
             }
