@@ -14,21 +14,12 @@ pipeline {
 
           steps {
             echo 'Exercise Step'
+            echo 'PROJECT_NAME'
 
             script {
                 if (PROJECT_NAME == 'api-server') {
                    echo 'project name '
                 }
-            }
-
-
-            post {
-                 success {
-                   echo 'Successfully Cloned Repository'
-                 }
-                 failure {
-                   error 'This pipeline stops here...'
-                 }
             }
           }
         }
