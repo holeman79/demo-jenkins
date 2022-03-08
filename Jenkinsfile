@@ -12,22 +12,22 @@ pipeline {
         serverIp = ''
     }
 
-    script {
-        if ("${params.PROJECT_NAME}" == 'api-server') {
-           serverIp = "1";
-        } else if ("${params.PROJECT_NAME}" == 'message-subscriber') {
-           serverIp = "2";
-        }
-    }
+
 
     stages {
 
         stage('Prepare') {
-
+          script {
+                  if ("${params.PROJECT_NAME}" == 'api-server') {
+                     serverIp = "1";
+                  } else if ("${params.PROJECT_NAME}" == 'message-subscriber') {
+                     serverIp = "2";
+                  }
+              }
           steps {
             echo 'Exercise Step'
             echo "PROJECT_NAME : ${params.PROJECT_NAME}"
-
+            echo "serverIp : ${env.serverIp}"
 
             echo serverIp
           }
