@@ -11,7 +11,7 @@ pipeline {
 
         stage('Prepare') {
           if (${PROJECT_NAME} == "api-server") {
-            echo 'project name : "${PROJECT_NAME}"'
+            echo 'project name '
           }
           steps {
             echo 'Exercise Step'
