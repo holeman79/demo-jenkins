@@ -17,12 +17,13 @@ pipeline {
             echo 'Exercise Step'
 
             post {
-             success {
-               echo 'Successfully Cloned Repository'
-             }
-           	 failure {
-               error 'This pipeline stops here...'
-             }
+                 success {
+                   echo 'Successfully Cloned Repository'
+                 }
+                 failure {
+                   error 'This pipeline stops here...'
+                 }
+            }
           }
         }
     }
