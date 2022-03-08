@@ -11,11 +11,16 @@ pipeline {
     stages {
 
         stage('Prepare') {
-          if (PROJECT_NAME == 'api-server') {
-            echo 'project name '
-          }
+
           steps {
             echo 'Exercise Step'
+
+            script {
+                if (PROJECT_NAME == 'api-server') {
+                   echo 'project name '
+                }
+            }
+
 
             post {
                  success {
