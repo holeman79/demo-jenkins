@@ -5,12 +5,13 @@ pipeline {
         imagename = "holeman79/demo-jenkins"
         registryCredential = 'docker-hub'
         dockerImage = ''
+        PROJECT_NAME = "${PROJECT_NAME}"
     }
 
     stages {
 
         stage('Prepare') {
-          if (params.PROJECT_NAME == 'api-server') {
+          if (PROJECT_NAME == 'api-server') {
             echo 'project name '
           }
           steps {
