@@ -9,7 +9,7 @@ pipeline {
         imagename = "holeman79/demo-jenkins"
         registryCredential = 'docker-hub'
         dockerImage = ''
-        PROJECT_NAME = "${PROJECT_NAME}"
+        serverIp = ''
     }
 
     stages {
@@ -22,9 +22,12 @@ pipeline {
 
             script {
                 if ("${params.PROJECT_NAME}" == 'api-server') {
-                   echo 'project name '
+                   serverIp = "1";
+                } else if ("${params.PROJECT_NAME}" == 'message-subscriber') {
+                   serverIp = "2";
                 }
             }
+            echo serverIp
           }
         }
     }
