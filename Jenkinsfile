@@ -17,7 +17,7 @@ pipeline {
             echo 'env.PROJECT_NAME'
 
             script {
-                if (env.PROJECT_NAME == 'api-server') {
+                if (${PROJECT_NAME} == 'api-server') {
                    echo 'project name '
                 }
             }
