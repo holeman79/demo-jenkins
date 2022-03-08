@@ -20,15 +20,17 @@ pipeline {
 
           steps {
             script {
-                              if ("${params.PROJECT_NAME}" == 'api-server') {
-                                 serverIp = "1";
-                              } else if ("${params.PROJECT_NAME}" == 'message-subscriber') {
-                                 serverIp = "2";
-                              }
-                          }
+                  if ("${params.PROJECT_NAME}" == 'api-server') {
+                     echo 'if api server'
+                     serverIp = "1";
+                  } else if ("${params.PROJECT_NAME}" == 'message-subscriber') {
+                     echo 'if message-subscriber'
+                     serverIp = "2";
+                  }
+              }
             echo 'Exercise Step'
             echo "PROJECT_NAME : ${params.PROJECT_NAME}"
-            echo "serverIp : ${env.serverIp}"
+            echo "serverIp : ${serverIp}"
 
             echo serverIp
           }
