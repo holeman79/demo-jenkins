@@ -14,7 +14,7 @@ pipeline {
 
           steps {
             echo 'Exercise Step'
-            echo '${PROJECT_NAME}'
+            echo '"${PROJECT_NAME}"'
 
             script {
                 if ("${PROJECT_NAME}" == 'api-server') {
