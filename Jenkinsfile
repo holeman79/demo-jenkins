@@ -10,7 +10,7 @@ pipeline {
     stages {
 
         stage('Prepare') {
-          if (${PROJECT_NAME} == "api-server") {
+          if [${PROJECT_NAME} == 'api-server'] {
             echo 'project name '
           }
           steps {
