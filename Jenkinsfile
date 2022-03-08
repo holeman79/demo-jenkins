@@ -21,7 +21,7 @@ pipeline {
             echo "PROJECT_NAME : ${params.PROJECT_NAME}"
 
             script {
-                if (${params.PROJECT_NAME} == 'api-server') {
+                if ("${params.PROJECT_NAME}" == 'api-server') {
                    echo 'project name '
                 }
             }
