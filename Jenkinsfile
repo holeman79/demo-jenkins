@@ -1,38 +1,119 @@
 pipeline {
     agent any
 
-    parameters {
-        choice(name: 'PROJECT_NAME', choices: ['api-server', 'message-subscriber'], description: 'PROJECT_NAME')
-    }
-
     environment {
         imagename = "holeman79/demo-jenkins"
         registryCredential = 'docker-hub'
         dockerImage = ''
-        serverIp = ''
     }
 
-
-
     stages {
-
+        // git에서 repository clone
         stage('Prepare') {
-
           steps {
-            script {
-                  if ("${params.PROJECT_NAME}" == 'api-server') {
-                     echo 'if api server'
-                     serverIp = "1";
-                  } else if ("${params.PROJECT_NAME}" == 'message-subscriber') {
-                     echo 'if message-subscriber'
-                     serverIp = "2";
-                  }
-              }
-            echo 'Exercise Step'
-            echo "PROJECT_NAME : ${params.PROJECT_NAME}"
-            echo "serverIp : ${serverIp}"
+            echo 'Cloning Repository'
+            git url: 'https://github.com/holeman79/demo-jenkins.git',
+              branch: 'master',
+              credentialsId: 'github-access'
+            }
+            post {
+             success {
+               echo 'Successfully Cloned Repository'
+             }
+           	 failure {
+               error 'This pipeline stops here...'
+             }
+          }
+        }
 
-            echo serverIp
+        // gradle build
+        stage('Build Gradle') {
+          agent any
+          steps {
+            echo 'Build Gradle'
+            dir ('.'){
+                sh """
+                ./gradlew clean build --exclude-task test
+                """
+            }
+          }
+          post {
+            failure {
+              error 'This pipeline stops here...'
+            }
+          }
+        }
+
+        // docker build
+        stage('Build Docker') {
+          agent any
+          steps {
+            echo 'Build Docker'
+            script {
+                dockerImage = docker.build imagename
+            }
+          }
+          post {
+            failure {
+              error 'This pipeline stops here....'
+            }
+          }
+        }
+
+        // docker push
+        stage('Push Docker') {
+          agent any
+          steps {
+            echo 'Push Docker'
+            script {
+                docker.withRegistry( '', registryCredential) {
+                    dockerImage.push()  // ex) "1.0"
+                }
+            }
+          }
+          post {
+            failure {
+              error 'This pipeline stops here...'
+            }
+          }
+        }
+        // docker push
+        stage('Delete Docker Image') {
+          agent any
+          steps {
+            echo 'Delete Docker Image'
+            sh "docker images --filter=reference=holeman79/demo -q | xargs -r docker rmi"
+          }
+          post {
+            failure {
+              error 'This pipeline stops here...'
+            }
+          }
+        }
+
+        // Server Docker pull
+        stage('SSH api server') {
+          agent any
+          steps {
+              echo 'SSH'
+
+              sshagent(credentials: ['garak-cluster']) {
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'cd /home/api-server'"
+
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -f name=demo -q | xargs --no-run-if-empty docker stop'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -a -f name=demo -q | xargs -r docker rm'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker images --filter=reference=holeman79/demo* -q | xargs -r docker rmi'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker pull holeman79/demo-jenkins:latest'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker run -p 6060:8080 -d --name demo holeman79/demo-jenkins:latest'"
+              }
+          }
+          post {
+            success {
+              echo 'Successfully finished running on api-server'
+            }
+            failure {
+              error 'This pipeline stops here...'
+            }
           }
         }
     }
