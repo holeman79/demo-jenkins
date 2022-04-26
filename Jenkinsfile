@@ -91,32 +91,40 @@ pipeline {
           }
         }
 
+        stage('Deploy to kubernetes'){
+                steps{
+                    script{
+                        kubernetesDeploy(configs: "jenkins_deploy.yaml", kubeconfigId: "Kubeconfig")
+                    }
+                }
+            }
+
         // Server Docker pull
-        stage('SSH api server') {
-          agent any
-          steps {
-              echo 'SSH'
-
-              sshagent(credentials: ['garak-cluster']) {
-                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'cd /home/v2'"
-                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'kubectl get po'"
-                  //sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'kubectl set image deploy b b=holeman79/demo-jenkins:latest'"
-
-//                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -f name=demo -q | xargs --no-run-if-empty docker stop'"
-//                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -a -f name=demo -q | xargs -r docker rm'"
-//                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker images --filter=reference=holeman79/demo* -q | xargs -r docker rmi'"
-//                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker pull holeman79/demo-jenkins:latest'"
-//                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker run -p 6060:8080 -d --name demo holeman79/demo-jenkins:latest'"
-              }
-          }
-          post {
-            success {
-              echo 'Successfully finished running on api-server'
-            }
-            failure {
-              error 'This pipeline stops here...'
-            }
-          }
-        }
+//         stage('SSH api server') {
+//           agent any
+//           steps {
+//               echo 'SSH'
+//
+//               sshagent(credentials: ['garak-cluster']) {
+//                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'cd /home/v2'"
+//                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'kubectl get po'"
+//                   //sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'kubectl set image deploy b b=holeman79/demo-jenkins:latest'"
+//
+// //                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -f name=demo -q | xargs --no-run-if-empty docker stop'"
+// //                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -a -f name=demo -q | xargs -r docker rm'"
+// //                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker images --filter=reference=holeman79/demo* -q | xargs -r docker rmi'"
+// //                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker pull holeman79/demo-jenkins:latest'"
+// //                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker run -p 6060:8080 -d --name demo holeman79/demo-jenkins:latest'"
+//               }
+//           }
+//           post {
+//             success {
+//               echo 'Successfully finished running on api-server'
+//             }
+//             failure {
+//               error 'This pipeline stops here...'
+//             }
+//           }
+//         }
     }
 }

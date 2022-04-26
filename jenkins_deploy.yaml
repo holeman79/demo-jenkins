@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demojenkins-service
+spec:
+  type: NodePort
+  selector:
+    app: demojenkins
+  ports:
+    - port: 8081
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demojenkins
+  labels:
+    app: demojenkins
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demojenkins
+  template:
+    metadata:
+      labels:
+        app: demojenkins
+    spec:
+      containers:
+        - name: demojenkins
+          image: holeman79/demo-jenkins
+          ports:
+            - containerPort: 8080
+
