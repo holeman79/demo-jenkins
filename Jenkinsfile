@@ -99,7 +99,8 @@ pipeline {
 
               sshagent(credentials: ['garak-cluster']) {
                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'cd /home/v2'"
-                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'kubectl set image deploy b b=holeman79/demo-jenkins:latest'"
+                  sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'kubectl get po'"
+                  //sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'kubectl set image deploy b b=holeman79/demo-jenkins:latest'"
 
 //                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -f name=demo -q | xargs --no-run-if-empty docker stop'"
 //                   sh "ssh -o StrictHostKeyChecking=no root@10.0.202.10 'docker ps -a -f name=demo -q | xargs -r docker rm'"
