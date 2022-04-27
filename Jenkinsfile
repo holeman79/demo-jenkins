@@ -91,10 +91,10 @@ pipeline {
           }
         }
 
-        stage('Kubernetes deploy') {
-            kubernetesDeploy kubeconfigId: 'Kubeconfig'
-            sh "kubectl get po"
-        }
+//         stage('Kubernetes deploy') {
+//             kubernetesDeploy kubeconfigId: 'Kubeconfig'
+//             sh "kubectl get po"
+//         }
 
 //         stage('Deploy to kubernetes'){
 //                 steps{
