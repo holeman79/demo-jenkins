@@ -91,13 +91,18 @@ pipeline {
           }
         }
 
-        stage('Deploy to kubernetes'){
-                steps{
-                    script{
-                        kubernetesDeploy(configs: "jenkins_deploy.yaml", kubeconfigId: "Kubeconfig")
-                    }
-                }
-            }
+        stage('Kubernetes deploy') {
+            kubernetesDeploy kubeconfigId: 'Kubeconfig'
+            sh "kubectl get po"
+        }
+
+//         stage('Deploy to kubernetes'){
+//                 steps{
+//                     script{
+//                         kubernetesDeploy(configs: "jenkins_deploy.yaml", kubeconfigId: "Kubeconfig")
+//                     }
+//                 }
+//             }
 
         // Server Docker pull
 //         stage('SSH api server') {
